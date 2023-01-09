@@ -1,0 +1,8 @@
+NPC
+    Dialogue Tree
+        Dialogue Type
+        Dialogue Options
+            Dialogue Outcomes
+
+Player chooses from dialogue options which each have their own outcomes and lead to subtrees
+Which are just Dialogue Trees themselves

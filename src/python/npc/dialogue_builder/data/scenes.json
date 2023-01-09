@@ -1,0 +1,21 @@
+{
+    "npc_id": {
+        "trigger": {
+            "scene_id": {
+                "dialogue_id": {
+                    "text": "This is the text for the dialogue",
+                    "options": [
+                        {
+                            "text": "This is the text for the one of the options to reply",
+                            "next_dialogue_id": "This is the next dialogue id"
+                        },
+                        {
+                            "text": "This is the text for one of the options to reply",
+                            "next_dialogue_id": "This is the next dialogue id. Can also lead to the universal end_dialogue_id, 0000"
+                        }
+                    ]
+                }
+            }
+        }
+    }
+}

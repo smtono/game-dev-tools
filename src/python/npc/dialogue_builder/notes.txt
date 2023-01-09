@@ -1,0 +1,4 @@
+Note to self in dialogue tree add attribute checks for jets personal growth. And maybe come up with new system for that, or a system
+
+Build dialogue objects separate from the trees
+or put everything directly in the tree, but that can really bloat it

@@ -1,0 +1,51 @@
+{
+    "0000": {
+        "name": "This is the name of the NPC",
+        "portrait": "This is the filepath to the portrait of this NPC",
+        "type": "This is the type of NPC (shopkeeper, quest giver, confidant, generic)",
+        "mood": "This is the starting mood of this NPC as an integer (positive means good, negative means bad)",
+        "actions": {
+            "START_SESSION": {
+                "good": [
+                    "This dialogue"
+                ],
+                "neutral": [
+                    "is said when"
+                ],
+                "bad": [
+                    "entering a conversation"
+                ]
+            },
+            "END_SESSION": {
+                "good": [
+                    "This dialogue"
+                ],
+                "neutral": [
+                    "is said when"
+                ],
+                "bad": [
+                    "leaving a conversation"
+                ]
+            }
+        },
+        "scenes": {
+            "trigger_event": {
+                "this is the trigger for the scene": [
+                    "this is the id for the scene"
+                ],
+                "start": [
+                    "0001"
+                ],
+                "in_progress": [
+                    "0002"
+                ],
+                "end": [
+                    "0003"
+                ],
+                "rejected": [
+                    "0004"
+                ]
+            }
+        }
+    }
+}
