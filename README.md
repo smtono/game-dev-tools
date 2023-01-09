@@ -1,2 +1,7 @@
-# game-dev-tools
-A suite of tools used to assist in game development of any kind
+# WIP
+
+This is currently being planned out
+
+Developers:
+tonofthorns
+abolouri
