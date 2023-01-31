@@ -30,6 +30,8 @@ These objects, specifically the Dialogue and Reply objects, are used to create a
 We can then chain these links together to create a "tree" of dialogue options.
 """
 
+from dataclasses import dataclass
+
 class Scene:
     """
     This class is used to store the information for a Scene.
@@ -57,3 +59,35 @@ class Reply:
         self.next_id = next_id
         
 # TODO: methods for loading and saving the data
+
+# TODO: explore a different way
+#     https://www.quora.com/Does-Python-have-struct
+#     https://dev.to/omrigm/why-you-should-use-python-data-classes-48po#:~:text=Conclusion,you%20to%20do%20it%20too.
+
+# Data Class representation
+
+@dataclass(frozen=True)
+class Scene:
+    """
+    This class is used to store the information for a Scene.
+    """
+    scene_id: int
+    dialogue_id: int
+
+@dataclass(frozen=True)
+class Dialogue:
+    """
+    This class is used to store the information for a Dialogue.
+    """
+    dialogue_id: int
+    text: str
+    replies: list
+
+@dataclass(frozen=True)
+class Reply:
+    """
+    This class is used to store the information for a Reply.
+    """
+    reply_id: int
+    dialogue_id: int
+    next_id: int
