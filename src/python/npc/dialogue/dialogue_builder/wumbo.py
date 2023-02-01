@@ -32,40 +32,6 @@ We can then chain these links together to create a "tree" of dialogue options.
 
 from dataclasses import dataclass
 
-class Scene:
-    """
-    This class is used to store the information for a Scene.
-    """
-    def __init__(self, scene_id, dialogue_id):
-        self.scene_id = scene_id
-        self.dialogue_id = dialogue_id
-
-class Dialogue:
-    """
-    This class is used to store the information for a Dialogue.
-    """
-    def __init__(self, dialogue_id, text, replies):
-        self.dialogue_id = dialogue_id
-        self.text = text
-        self.replies = replies
-
-class Reply:
-    """
-    This class is used to store the information for a Reply.
-    """
-    def __init__(self, reply_id, dialogue_id, next_id):
-        self.reply_id = reply_id
-        self.dialogue_id = dialogue_id
-        self.next_id = next_id
-        
-# TODO: methods for loading and saving the data
-
-# TODO: explore a different way
-#     https://www.quora.com/Does-Python-have-struct
-#     https://dev.to/omrigm/why-you-should-use-python-data-classes-48po#:~:text=Conclusion,you%20to%20do%20it%20too.
-
-# Data Class representation
-
 @dataclass(frozen=True)
 class Scene:
     """
