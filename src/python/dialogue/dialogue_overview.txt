@@ -47,3 +47,7 @@ REPLY Objects:
 This is the basic idea.
 So there needs to be components made for these objects, and manipulating them.
 Then, worry about creation and parsing when making the actual state machine.
+
+
+GUI OVERVIEW:
+react frontend GUI work with a python mini server
