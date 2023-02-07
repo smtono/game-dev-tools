@@ -51,9 +51,20 @@ These objects work together to form a tree of dialogue options
 class Tree:
     """
     This class is used to store the information for a Tree.
+    Trees can be made up of scenes, or individual dialogue nodes
+    
+    For Scenes:
+        Scenes trees are composed of every possible "scene" that could occur
+        Scenes may be connected with each other, but they are not required to be
+
+    For Dialogue:
+        Dialogue trees are composed of every possible dialogue that could occur in a scene
+        "Trees" in this instance are really just a list of dialogue nodes that compose a scene
     """
     root: int # Dialogue ID
-    scenes: list
+    nodes: list # List of Scene or Dialogue objects
+    
+    # TODO: is this a good idea?
 
 @dataclass(frozen=True)
 class Scene:
@@ -62,6 +73,14 @@ class Scene:
     
     A scene is a "block" in the tree in which dialogue goes in a cycle
     A scene completes at the end of this block
+    
+    Data:
+        scene_id: int
+            Used for identifying the scene
+        dialogue_id: int
+            Used for identifying the starting dialogue
+        is_connected: bool
+            Used to determine if the scene is connected to another scene
     """
     scene_id: int
     dialogue_id: int
@@ -72,20 +91,24 @@ class Dialogue:
     This class is used to store the information for a Dialogue.
     
     A dialogue is a "node" in the tree
+    
+    TODO: add more here
     """
     dialogue_id: int
     text: str
     replies: list
 
 @dataclass(frozen=True)
-class Reply:
+class Action:
     """
-    This class is used to store the information for a Reply.
+    This class is used to store the information for an Action
     
-    Replies are attached to Dialogue objects and
-    are what the user interacts with to progress the scene
+    Actions are either a response to a dialogue or a piece of dialogue
+    that continues the current dialogue
+    
+    TODO: add more here
     """
-    reply_id: int
+    action_id: int
     dialogue_id: int
     next_id: int
 
