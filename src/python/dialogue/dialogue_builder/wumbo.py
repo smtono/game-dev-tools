@@ -31,6 +31,26 @@ Special Attributes (Optional Metadata)
 
 These objects, specifically the Dialogue and Reply objects, are used to create a link between each other.
 We can then chain these links together to create a "tree" of dialogue options.
+
+Each object also has a context that can be used to store information about the object, that is defined by the developer.
+This can contain any relevant information that may change the flow of dialogue, 
+such as the player's inventory or the current location, or relationship with NPCs.
+
+Example of a Dialogue Tree:
+Dialogue 1
+    Reply 1
+        Dialogue 2
+    Reply 2
+        Dialogue 3
+Dialogue 2
+    Reply 1
+        Dialogue 4
+    Reply 2
+
+Example Usage:
+    root = Scene(1, 1)
+    tree = Tree(root)
+    next_scene = tree.traverse(2)
 """
 
 from dataclasses import dataclass
@@ -48,6 +68,60 @@ These objects are:
 These objects work together to form a tree of dialogue options
 """
 @dataclass(frozen=True)
+class Action:
+    """
+    This class is used to store the information for an Action
+    
+    Actions are either a response to a dialogue or a piece of dialogue
+    that continues the current dialogue
+    
+    TODO: add more here
+    """
+    ctx: dict
+    action_id: int
+    dialogue_id: int
+    next_id: int
+
+@dataclass(frozen=True)
+class Dialogue:
+    """
+    This class is used to store the information for a Dialogue.
+    
+    A dialogue is a "node" in the tree
+    
+    Data:
+        dialogue_id: int
+            Used for identifying the dialogue
+        text: str
+            Used for storing the text of the dialogue
+        actions: list
+            Used for storing the replies to the dialogue
+    """
+    ctx: dict
+    dialogue_id: int
+    text: str
+    actions: list[Action]
+
+class Scene:
+    """
+    This class is used to store the information for a Scene.
+    
+    A scene is a "block" in the tree in which dialogue goes in a cycle
+    
+    Data:
+        scene_id: int
+            Used for identifying the scene
+        dialogue_id: int
+            Used for identifying the starting dialogue
+        is_connected: bool
+            Used to determine if the scene is connected to another scene
+    """
+
+    def __init__(self, ctx: dict, scene_id: int, dialogue_id: int) -> None:
+        self.ctx = ctx
+        self.scene_id = scene_id
+        self.dialogue_id = dialogue_id
+
 class Tree:
     """
     This class is used to store the information for a Tree.
@@ -61,61 +135,34 @@ class Tree:
         Dialogue trees are composed of every possible dialogue that could occur in a scene
         "Trees" in this instance are really just a list of dialogue nodes that compose a scene
     """
-    root: int # Dialogue ID
-    nodes: list # List of Scene or Dialogue objects
     
-    # TODO: is this a good idea?
+    def __init__(self, root: Scene) -> None:
+        self.scenes = []
+        self.dialogues = []
+        self.actions = []
 
-@dataclass(frozen=True)
-class Scene:
-    """
-    This class is used to store the information for a Scene.
-    
-    A scene is a "block" in the tree in which dialogue goes in a cycle
-    A scene completes at the end of this block
-    
-    Data:
-        scene_id: int
-            Used for identifying the scene
-        dialogue_id: int
-            Used for identifying the starting dialogue
-        is_connected: bool
-            Used to determine if the scene is connected to another scene
-    """
-    scene_id: int
-    dialogue_id: int
+    def traverse(self, dialogue_id: int) -> Dialogue:
+        """
+        This function is used to traverse the tree and find the dialogue
+        that corresponds with the dialogue_id
+        
+        Args:
+            dialogue_id: int
+                The ID of the dialogue to find
+        Returns:
+            Dialogue: The dialogue that corresponds with the dialogue_id
+        """
+        for dialogue in self.dialogues:
+            if dialogue.dialogue_id == dialogue_id:
+                return dialogue
+        return None
 
-@dataclass(frozen=True)
-class Dialogue:
-    """
-    This class is used to store the information for a Dialogue.
-    
-    A dialogue is a "node" in the tree
-    
-    TODO: add more here
-    """
-    dialogue_id: int
-    text: str
-    replies: list
-
-@dataclass(frozen=True)
-class Action:
-    """
-    This class is used to store the information for an Action
-    
-    Actions are either a response to a dialogue or a piece of dialogue
-    that continues the current dialogue
-    
-    TODO: add more here
-    """
-    action_id: int
-    dialogue_id: int
-    next_id: int
-
-"""
-Function Definitions
-"""
-# TODO: tree traversal
-#    - BFS
-#    - DFS
-# These are for searching for specific dialogue nodes
+    def add_scene(self, scene: Scene) -> None:
+        """
+        This function is used to add a scene to the tree
+        
+        Args:
+            scene: Scene
+                The scene to add to the tree
+        """
+        self.scenes.append(scene)
