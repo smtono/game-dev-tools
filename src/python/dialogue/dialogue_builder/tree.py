@@ -152,34 +152,67 @@ class Tree:
         Dialogue trees are composed of every possible dialogue that could occur in a scene
         "Trees" in this instance are really just a list of dialogue nodes that compose a scene
     """
-    
-    def __init__(self, root: Scene) -> None:
+    def __init__(self, data: dict=None) -> None:
+        """
+        Initializes the Tree object
+        
+        If data is present, it will be used to populate the tree
+        It will be parsed and placed into the appropriate data structures
+        """
+        
+        self.tree = {} # To be populated
+
+        # All are list of tuples
+        #   (id, object)
         self.scenes = []
         self.dialogues = []
         self.actions = []
 
-    def traverse(self, dialogue_id: int) -> Dialogue:
+        if data:
+            parsed = self.parse_data(data)
+            for identifier, obj in parsed:
+                self.add_object(identifier, obj)
+    
+    def parse_data(self, data: dict) -> list[tuple[int, any]]:
         """
-        This function is used to traverse the tree and find the dialogue
-        that corresponds with the dialogue_id
+        Parses the data and returns a list of tuples
         
         Args:
-            dialogue_id: int
-                The ID of the dialogue to find
+            data: dict
+                The data to parse
         Returns:
-            Dialogue: The dialogue that corresponds with the dialogue_id
+            list[tuple[int, any]]
+                A list of tuples of the form (identifier, object)
+        Raises:
+            None
         """
-        for dialogue in self.dialogues:
-            if dialogue.dialogue_id == dialogue_id:
-                return dialogue
-        return None
-
-    def add_scene(self, scene: Scene) -> None:
+        pass
+    
+    def add_object(self, identifier: int, obj: any) -> None:
         """
-        This function is used to add a scene to the tree
+        Adds an object to the tree data structure
         
         Args:
-            scene: Scene
-                The scene to add to the tree
+            identifier: int
+                The identifier for the object
+            obj: any
+                The object to add to the tree
+        Returns:
+            None
+        Raises:
+            TypeError: If the object is not a valid type
         """
-        self.scenes.append(scene)
+        if isinstance(obj, Scene):
+            self.scenes.append((identifier, obj))
+        elif isinstance(obj, Dialogue):
+            self.dialogues.append((identifier, obj))
+        elif isinstance(obj, Action):
+            self.actions.append((identifier, obj))
+        else:
+            raise TypeError("Object is not a valid type")
+    
+    
+    # TODO: add function for adding in JSON or CSV files
+    # add function for parsing JSON or CSV files
+    # add function for parsing tree
+    # add function for writing tree to JSON or CSV files
