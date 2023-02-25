@@ -82,9 +82,9 @@ class Action:
     TODO: add more here
     """
     ctx: dict
-    action_id: int
-    dialogue_id: int
-    next_id: int
+    action_id: str
+    dialogue_id: str
+    next_id: str
 
 @dataclass(frozen=True)
 class Dialogue:
@@ -94,7 +94,7 @@ class Dialogue:
     A dialogue is a "node" in the tree
     
     Data:
-        dialogue_id: int
+        dialogue_id: str
             Used for identifying the dialogue
         text: str
             Used for storing the text of the dialogue
@@ -102,7 +102,7 @@ class Dialogue:
             Used for storing the replies to the dialogue
     """
     ctx: dict
-    dialogue_id: int
+    dialogue_id: str
     text: str
     actions: list[Action]
 
@@ -113,17 +113,17 @@ class Scene:
     A scene is a "block" in the tree in which dialogue goes in a cycle
     
     Data:
-        scene_id: int
+        scene_id: str
             Used for identifying the scene
-        next_scene_id: int
+        next_scene_id: str
             Used for identifying the next scene
-        dialogue_id: int
+        dialogue_id: str
             Used for identifying the starting dialogue
         is_connected: bool
             Used to determine if the scene is connected to another scene
     """
 
-    def __init__(self, ctx: dict, scene_id: int, dialogue_id: int) -> None:
+    def __init__(self, ctx: dict, scene_id: str, dialogue_id: str) -> None:
         self.ctx = ctx
         self.scene_id = scene_id
         self.dialogue_id = dialogue_id
@@ -168,12 +168,14 @@ class Tree:
         self.dialogues = []
         self.actions = []
 
-        if data:
+        if data: # Initialize tree with user data
             parsed = self.parse_data(data)
             for identifier, obj in parsed:
                 self.add_object(identifier, obj)
+        else: # Initialize root
+            self.scenes.append((1, Scene({}, 1, 1)))
     
-    def parse_data(self, data: dict) -> list[tuple[int, any]]:
+    def parse_data(self, data: dict) -> list[tuple[str, any]]:
         """
         Parses the data and returns a list of tuples
         
@@ -181,19 +183,20 @@ class Tree:
             data: dict
                 The data to parse
         Returns:
-            list[tuple[int, any]]
+            list[tuple[str, any]]
                 A list of tuples of the form (identifier, object)
         Raises:
             None
         """
-        pass
+        # Read in data and parse based on tag (Scene, Dialogue, Action)
+        # Add these to appropriate data structures
     
-    def add_object(self, identifier: int, obj: any) -> None:
+    def add_object(self, identifier: str, obj: any) -> None:
         """
         Adds an object to the tree data structure
         
         Args:
-            identifier: int
+            identifier: str
                 The identifier for the object
             obj: any
                 The object to add to the tree
@@ -211,8 +214,34 @@ class Tree:
         else:
             raise TypeError("Object is not a valid type")
     
+    def populate_tree(self) -> None:
+        """
+        Populates the tree data structure with current data
+        
+        Args:
+            None
+        Returns:
+            None
+        Raises:
+            None
+        """
+
+def write_tree(tree: Tree, filename: str) -> None:
+    """
+    Writes the Tree structure to a JSON file
     
-    # TODO: add function for adding in JSON or CSV files
-    # add function for parsing JSON or CSV files
-    # add function for parsing tree
-    # add function for writing tree to JSON or CSV files
+    Args:
+        tree: Tree
+            The tree to write to the file
+        filename: str
+            The name of the file to write to
+    Returns:
+        None
+    Raises:
+        None
+    """
+    tree.populate_tree()
+    data = tree.tree
+    
+    # Write data to file
+    
