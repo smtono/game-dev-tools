@@ -57,6 +57,7 @@ Example Usage:
     next_scene = tree.traverse(2)
 """
 
+import json
 from dataclasses import dataclass
 
 """
@@ -186,10 +187,21 @@ class Tree:
             list[tuple[str, any]]
                 A list of tuples of the form (identifier, object)
         Raises:
-            None
+            ValueError: If the data is not valid
         """
         # Read in data and parse based on tag (Scene, Dialogue, Action)
         # Add these to appropriate data structures
+        if "scenes" in data:
+            for scene in data["scenes"]:
+                self.scenes.append((scene["scene_id"], Scene(scene)))
+        if "dialogues" in data:
+            for dialogue in data["dialogues"]:
+                self.dialogues.append((dialogue["dialogue_id"], Dialogue(dialogue)))
+        if "actions" in data:
+            for action in data["actions"]:
+                self.actions.append((action["action_id"], Action(action)))
+        else:
+            raise ValueError("Data is not valid, please check for errors")
     
     def add_object(self, identifier: str, obj: any) -> None:
         """
@@ -225,6 +237,23 @@ class Tree:
         Raises:
             None
         """
+        # TODO: check this code for errors
+        for scene_id, scene in self.scenes:
+            self.tree[scene_id] = {
+                "dialogue_id": scene.dialogue_id,
+                "dialogues": {}
+            }
+            for dialogue_id, dialogue in self.dialogues:
+                if dialogue.dialogue_id == scene.dialogue_id:
+                    self.tree[scene_id]["dialogues"][dialogue_id] = {
+                        "text": dialogue.text,
+                        "actions": {}
+                    }
+                    for action_id, action in self.actions:
+                        if action.dialogue_id == dialogue_id:
+                            self.tree[scene_id]["dialogues"][dialogue_id]["actions"][action_id] = {
+                                "next_id": action.next_id
+                            }
 
 def write_tree(tree: Tree, filename: str) -> None:
     """
@@ -244,4 +273,4 @@ def write_tree(tree: Tree, filename: str) -> None:
     data = tree.tree
     
     # Write data to file
-    
+    json.dump(data, open(filename, "w"))
