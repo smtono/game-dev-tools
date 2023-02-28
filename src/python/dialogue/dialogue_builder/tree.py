@@ -61,7 +61,7 @@ import json
 from dataclasses import dataclass
 
 """
-Data Class definitions
+Class definitions
 
 These data classes are used to store the information for each object
 These objects are:
@@ -255,6 +255,20 @@ class Tree:
                                 "next_id": action.next_id
                             }
 
+"""
+Utility Functions
+
+Used for tree creation, manipulation, and validation
+These functions are used in the parser and tree classes
+This is where the user can instantiate their tree
+
+Functions:
+write_tree: Writes the Tree structure to a JSON file
+read_tree: Reads the Tree structure from a JSON file
+validate_tree: Validates the Tree structure
+create_tree: Creates a Tree object from a JSON file
+parse: parses user script for tree creation
+"""
 def write_tree(tree: Tree, filename: str) -> None:
     """
     Writes the Tree structure to a JSON file
@@ -274,3 +288,51 @@ def write_tree(tree: Tree, filename: str) -> None:
     
     # Write data to file
     json.dump(data, open(filename, "w"))
+
+def read_tree(filename: str) -> Tree:
+    """
+    Reads the Tree structure from a JSON file
+    
+    Args:
+        filename: str
+            The name of the file to read from
+    Returns:
+        Tree
+            The tree read from the file
+    Raises:
+        None
+    """
+    data = json.load(open(filename, "r"))
+    return Tree(data)
+
+def create_tree(filename: str) -> Tree:
+    """
+    Creates a Tree object from a JSON file
+    
+    Args:
+        filename: str
+            The name of the file to read from
+    Returns:
+        Tree
+            The tree read from the file
+    Raises:
+        None
+    """
+    # TODO: add
+
+def validate_tree(tree: Tree, check: list[str]) -> None:
+    """
+    Validates the Tree structure
+    
+    Args:
+        tree: Tree
+            The tree to validate
+        check: list[str]
+            The list of checks to perform
+    Returns:
+        None
+    Raises:
+        None
+    """
+    # TODO: figure way to validate based on user input
+    #   (i.e. if user wants to validate for a specific scene)
