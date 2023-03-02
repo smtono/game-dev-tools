@@ -8,19 +8,26 @@ The following functions are provided:
 
 """
 
-def tokenize(filename: str) -> list[tuple[str, str]]:
+def parse(tokens: list[tuple[str, str]]) -> list[str]:
     """
     Breaks up a user script into individual tokens
+    """
+
+def tokenize(tokens: list[str]) -> list[tuple[str, str]]:
+    """
     Assigns tokens to each part of script
     These tokens are then used to create a tree
 
     Args:
-        filename: string
-            The path to the user script
+        tokens (list[str])
+            A list of user script tokens
     Returns:
         A list of tuples of the form (token, part of script)
     Raises:
         SyntaxError: if the script is malformed
     """
 
-
+def interpret(tokens: list[tuple[str, str]]) -> list[str]:
+    """
+    Interprets the tokens and returns the result
+    """
