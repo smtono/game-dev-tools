@@ -8,10 +8,21 @@ The following functions are provided:
 
 """
 
-def parse(tokens: list[tuple[str, str]]) -> list[str]:
+import os
+
+def parse(filename: str) -> list[str]:
     """
     Breaks up a user script into individual tokens
+    
+    Args:
+        filename (str)
+            The name of the user script to be parsed
+    Returns:
+        List of parsed tokens
     """
+    with open(filename, 'r') as f:
+        script = f.read()
+    return script.split()
 
 def tokenize(tokens: list[str]) -> list[tuple[str, str]]:
     """
@@ -26,8 +37,12 @@ def tokenize(tokens: list[str]) -> list[tuple[str, str]]:
     Raises:
         SyntaxError: if the script is malformed
     """
+    # TODO: decide script syntax
+    token_types = []
+    tokens = []
 
 def interpret(tokens: list[tuple[str, str]]) -> list[str]:
     """
     Interprets the tokens and returns the result
     """
+
