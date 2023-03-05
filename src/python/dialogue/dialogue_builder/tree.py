@@ -107,6 +107,7 @@ class Dialogue:
     text: str
     actions: list[Action]
 
+@dataclass(frozen=True)
 class Scene:
     """
     This class is used to store the information for a Scene.
@@ -123,22 +124,10 @@ class Scene:
         is_connected: bool
             Used to determine if the scene is connected to another scene
     """
-
-    def __init__(self, ctx: dict, scene_id: str, dialogue_id: str) -> None:
-        self.ctx = ctx
-        self.scene_id = scene_id
-        self.dialogue_id = dialogue_id
-        self.dialogues = []
-    
-    def add_dialogue(self, dialogue: Dialogue) -> None:
-        """
-        This function is used to add a dialogue to the scene
-        
-        Args:
-            dialogue: Dialogue
-                The dialogue to add to the scene
-        """
-        self.dialogues.append(dialogue)
+    ctx: dict
+    scene_id = str
+    dialogue_id = str
+    dialogues = list[Dialogue]
 
 class Tree:
     """
