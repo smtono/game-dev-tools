@@ -20,7 +20,6 @@ _tokens_valid = [
     "create",
     "update",
     "delete",
-    
 ]
 
 def parse(filename: str) -> list[str]:
@@ -51,6 +50,17 @@ def tokenize(tokens: list[str]) -> list[tuple[str, str]]:
         SyntaxError: if the script is malformed
     """
     # TODO: decide script syntax
+    for token in tokens:
+        if token not in _tokens_valid:
+            continue
+        else:
+            break
+            # normalize
+            # add to return list
+    # tokenize based on list
+    # return errors
+            
+        
 
 def interpret(tokens: list[tuple[str, str]]) -> list[str]:
     """
